@@ -1,3 +1,2 @@
 tasks:
-  - init: npm install && npm run build
-  - init: npm install --prefix ./samples
+  - init: npm install && npm run build && npm install --prefix ./samples
