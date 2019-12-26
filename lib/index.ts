@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-import { resolver, ContainerBuilder, Container } from 'depenject';
+import { ContainerBuilder, Container } from 'depenject';
 import { RequestHandler, Request, Response } from 'express';
 
 export interface RegisterServicesFunction {
@@ -21,22 +21,14 @@ export interface RequestContext {
 export class RequestContextAccessor {
   readonly context: RequestContext;
 
-  constructor(context: RequestContext) {
-    this.context = context;
-  }
-
-  static [resolver](container: Container): RequestContextAccessor {
+  constructor(container: Container) {
     const holder = container.resolve(HttpContextHolder);
-    return new RequestContextAccessor(holder.context);
+    this.context = holder.context;
   }
 }
 
 class HttpContextHolder {
   context!: RequestContext;
-
-  static [resolver]() {
-    return new HttpContextHolder();
-  }
 }
 
 function configureScope(scope: Container, request: Request, response: Response) {
