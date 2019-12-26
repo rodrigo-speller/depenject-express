@@ -1,0 +1,8 @@
+{
+  "name": "depenject-express-samples",
+  "version": "0.0.0",
+  "description": "",
+  "dependencies": {
+    "depenject-express": "file:.."
+  }
+}

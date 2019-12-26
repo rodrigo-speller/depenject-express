@@ -1,0 +1,35 @@
+{
+  "name": "depenject-express",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rodrigo-speller/depenject-express.git"
+  },
+  "author": {
+    "name": "Rodrigo Speller",
+    "email": "rspeller@primosti.com.br"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/rodrigo-speller/depenject-express/issues"
+  },
+  "homepage": "https://github.com/rodrigo-speller/depenject-express#readme",
+  "devDependencies": {
+    "typescript": "^3.0.0"
+  },
+  "dependencies": {
+    "@types/express": "^4.0.0",
+    "depenject": "0.0.5",
+    "express": "^4.0.0"
+  }
+}
