@@ -1,19 +1,78 @@
 import * as express from 'express';
-import depenject from 'depenject-express'
+import * as depenject from 'depenject';
+import * as di from 'depenject-express'
 
-import { registerServices, registerRoutes } from './src/startup';
+const app = express();
 
-const server = express();
+// DEPENDENCY INJECTION
 
-// configure dependency injection
-server.use(depenject(registerServices));
+// a single dependency are create once
+class SingletonDependency {
+  creation = Date();
+}
 
-// configure routes
-const router = express.Router();
-registerRoutes(router);
-server.use('/', router);
+// a scoped dependency are created once per request
+class ScopedDependency {
+  creation = Date();
+}
 
-// start server
-server.listen(3000, function () {
+app.use(di.depenject(services => {
+  services
+    .registerSingleton(SingletonDependency)
+    .registerScoped(ScopedDependency)
+}));
+
+// REQUEST HANDLER
+
+class SayHelloEndpoint {
+  requestContext: di.RequestContext;
+
+  constructor(container: depenject.Container) {
+    let contextAccessor = container.resolve(di.RequestContextAccessor);
+
+    this.requestContext = contextAccessor.context;
+  }
+
+  get message() {
+    let { request } = this.requestContext;
+
+    let name = request.query.name;
+    if (!name)
+      name = 'World';
+
+    return `Hello ${name}!`;
+  }
+
+  execute() {
+    const { request, response } = this.requestContext;
+
+    const singletonSample = request.$services.resolve(SingletonDependency);
+    const scopedSample = request.$services.resolve(ScopedDependency);
+    
+    response.send(`
+      <h1>${this.message}</h1>
+      <form>
+          <label for=name>Name:</label>
+          <input name=name />
+          <button>Say hello</button>
+      </form>
+      <p>The singleton dependency was created at: ${singletonSample.creation}.</p>
+      <p>The scoped dependency was created at: ${scopedSample.creation}.</p>
+    `);
+  }
+}
+
+app.use('/', (req) => {
+
+  // the dependency container can be accessed using $services property
+  const messageProvider = req.$services.resolve(SayHelloEndpoint);
+
+  messageProvider.execute();
+
+});
+
+// START SERVER
+
+app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
