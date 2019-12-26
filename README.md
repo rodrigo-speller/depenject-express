@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/depenject-express.svg)](https://www.npmjs.com/package/depenject-express)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/rodrigo-speller/depenject-express) 
 
-**depenject** is a lightweight and fast IoC container to resolve dependencies, achieving Inversion of Control (IoC) between their dependencies.
+[**depenject**](https://github.com/rodrigo-speller/depenject) is a lightweight and fast IoC container to resolve dependencies, achieving Inversion of Control (IoC) between their dependencies.
 
 **depenject-express** is a middleware for [express](https://expressjs.com/) that provides dependency injection to your requests.
 
